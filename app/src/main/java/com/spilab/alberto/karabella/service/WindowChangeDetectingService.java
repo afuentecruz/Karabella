@@ -46,31 +46,6 @@ public class WindowChangeDetectingService extends AccessibilityService {
                     Log.i("CurrentActivity", componentName.flattenToShortString());
             }
         }
-
-        AccessibilityNodeInfo source = event.getSource();
-        if (source == null) {
-            return;
-        }
-
-        // Grab the parent of the view that fired the event.
-        AccessibilityNodeInfo rowNode = getListItemNodeInfo(source);
-        if (rowNode == null) {
-            return;
-        }
-
-        for (int i = 0; i < rowNode.getChildCount(); i++) {
-            AccessibilityNodeInfo node = rowNode.getChild(i);
-            if ("EditText".equals(node.getClassName())) {
-                Log.i("text", node.getText().toString());
-            }
-        }
-        /*if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_FOCUSED){
-            Log.i("TextFocused", "Se ha detectado una entrada de texto");
-            if(event.getContentDescription() != null){
-                Log.i("TextFocused", event.getContentDescription().toString());
-            }
-
-        }*/
     }
 
 
