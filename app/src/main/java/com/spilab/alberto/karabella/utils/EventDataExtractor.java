@@ -23,11 +23,14 @@ public class EventDataExtractor {
 
     public static void printEvent(AccessibilityEvent event){
 
-        Log.d(EventManager.TAG, String.format(
-                "[type] %s [eventId] %s [class] %s [package] %s [time] %s [text] %s",
-                getEventType(event), event.getEventType(), event.getClassName(), event.getPackageName(),
-                event.getEventTime(), getEventText(event))
-        );
+        if(!getEventText(event).equals("")){
+            Log.d(TAG, String.format(
+                    "[type] %s [eventId] %s [class] %s [package] %s [time] %s [text] %s",
+                    getEventType(event), event.getEventType(), event.getClassName(), event.getPackageName(),
+                    event.getEventTime(), getEventText(event))
+            );
+        }
+
     }
 
     private static String getEventType(AccessibilityEvent event) {
@@ -47,6 +50,8 @@ public class EventDataExtractor {
             case AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED:
                 // TODO Event that catch written text
                 return "TYPE_VIEW_TEXT_CHANGED";
+            case AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED:
+                return "TYPE_VIEW_TEXT_SELECTION_CHANGED";
         }
         return "default";
     }
