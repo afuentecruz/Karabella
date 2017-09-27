@@ -1,4 +1,4 @@
-package com.spilab.alberto.karabella.Scrapper;
+package com.spilab.alberto.karabella.scrapper;
 
 import android.view.accessibility.AccessibilityEvent;
 
@@ -35,7 +35,8 @@ public class AppLog {
         this.navigation = navigation;
     }
 
-    public AppLog(String appName, String packageName, String className){
+    public AppLog(String timestamp, String appName, String packageName, String className){
+        this.timestamp = timestamp;
         this.appName = appName;
         this.packageName = packageName;
         this.className = className;
@@ -45,10 +46,12 @@ public class AppLog {
         return this.packageName;
     }
 
-    public void addElementToNavigationList(AccessibilityEvent event){
+    public void addElementToNavigationList(AccessibilityEvent event, String timestamp){
         //String timestamp, String appName, String packageName, String data)
 
-        Registry registry = new Registry(null, event.getPackageName().toString(), EventDataExtractor.getEventText(event));
+        Registry registry = new Registry(timestamp,
+                event.getPackageName().toString(),
+                EventDataExtractor.getEventText(event));
         navigation.add(registry);
     }
 

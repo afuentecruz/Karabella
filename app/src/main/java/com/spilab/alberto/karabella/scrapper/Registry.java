@@ -1,4 +1,4 @@
-package com.spilab.alberto.karabella.Scrapper;
+package com.spilab.alberto.karabella.scrapper;
 
 /**
  * Created by alberto on 21/09/17.
@@ -7,8 +7,6 @@ package com.spilab.alberto.karabella.Scrapper;
 public class Registry {
 
     private String timestamp;
-
-    private String appName;
 
     private String packageName;
 
@@ -24,9 +22,8 @@ public class Registry {
 
     @Override
     public String toString() {
-        return "Registry{" +
+        return "{" + '\n' +
                 "timestamp=" + timestamp + '\n' +
-                ", appName=" + appName + '\n' +
                 ", packageName=" + packageName + '\n' +
                 ", data=" + data + '\n' +
                 '}' +  '\n';

@@ -33,7 +33,7 @@ public class EventDataExtractor {
 
     }
 
-    private static String getEventType(AccessibilityEvent event) {
+    public static String getEventType(AccessibilityEvent event) {
         switch (event.getEventType()) {
             case AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED:
                 return "TYPE_NOTIFICATION_STATE_CHANGED";
@@ -48,12 +48,11 @@ public class EventDataExtractor {
             case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
                 return "TYPE_WINDOW_STATE_CHANGED";
             case AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED:
-                // TODO Event that catch written text
                 return "TYPE_VIEW_TEXT_CHANGED";
             case AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED:
                 return "TYPE_VIEW_TEXT_SELECTION_CHANGED";
         }
-        return "default";
+        return Integer.toString(event.getEventType());
     }
 
 }

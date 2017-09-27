@@ -3,6 +3,7 @@ package com.spilab.alberto.karabella.service;
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
@@ -18,16 +19,16 @@ public class MonitorService extends AccessibilityService {
 
     static final String TAG = "RecorderService";
 
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-
     EventManager eventManager = new EventManager();
+
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        //String time = dateFormat.format(Calendar.getInstance().getTime());
+        String time = dateFormat.format(Calendar.getInstance().getTime());
 
-        eventManager.computeEvent(event);
+        eventManager.computeEvent(event, time);
     }
 
     @Override
