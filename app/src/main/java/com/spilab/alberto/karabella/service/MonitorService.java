@@ -21,7 +21,7 @@ public class MonitorService extends AccessibilityService {
 
     EventManager eventManager = new EventManager();
 
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss:SS");
 
 
     @Override

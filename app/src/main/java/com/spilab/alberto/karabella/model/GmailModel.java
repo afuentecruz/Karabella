@@ -1,7 +1,6 @@
 package com.spilab.alberto.karabella.model;
 
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by alberto on 27/09/17.
@@ -13,17 +12,18 @@ public class GmailModel {
 
     private String sender;
 
-    private List<String> receivers = new LinkedList<>();
+    private LinkedList<String> receivers = new LinkedList<>();
 
     private String subject;
 
     private String body;
 
-    public GmailModel(String sender, List<String> receivers, String subject, String body) {
-        this.sender = sender;
-        this.receivers = receivers;
-        this.subject = subject;
-        this.body = body;
+    private String timestamp;
+
+    public GmailModel(){};
+
+    public void setTimestamp(String timestamp){
+        this.timestamp = timestamp;
     }
 
     public String getSender() {
@@ -34,11 +34,11 @@ public class GmailModel {
         this.sender = sender;
     }
 
-    public List<String> getReceivers() {
+    public LinkedList<String> getReceivers() {
         return receivers;
     }
 
-    public void setReceivers(List<String> receivers) {
+    public void setReceivers(LinkedList<String> receivers) {
         this.receivers = receivers;
     }
 
@@ -58,9 +58,15 @@ public class GmailModel {
         this.body = body;
     }
 
-    public GmailModel modelConstructor(){
 
-        return this;
-
+    @Override
+    public String toString() {
+        return "GmailModel{" + "\n" +
+                "timestamp='" + timestamp + "'\n" +
+                "sender='" + sender + "'\n" +
+                "receivers=" + receivers + "'\n" +
+                "subject='" + subject + "'\n" +
+                "body='" + body + "'\n" +
+                "}" + "\n";
     }
 }

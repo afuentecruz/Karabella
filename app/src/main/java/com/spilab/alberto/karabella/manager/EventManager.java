@@ -2,39 +2,60 @@ package com.spilab.alberto.karabella.manager;
 
 import android.view.accessibility.AccessibilityEvent;
 
-import com.spilab.alberto.karabella.scrapper.MainScrapper;
+import com.spilab.alberto.karabella.scrapper.GeneralScrapper;
+import com.spilab.alberto.karabella.scrapper.GmailScrapper;
 import com.spilab.alberto.karabella.utils.EventDataExtractor;
+import com.spilab.alberto.karabella.utils.Strings;
 
 /**
  * Created by alberto on 26/09/17.
  *
- * Main class that process the accessibility events, filter and saves them in MainScrapper
+ * Main class that process the accessibility events, filter and saves them in GeneralScrapper
  */
 
 public class EventManager {
 
-    private MainScrapper mainScrapper = new MainScrapper();
+    private GeneralScrapper generalScrapper = new GeneralScrapper();
+
+    private GmailScrapper gmailScrapper = new GmailScrapper();
 
     public void computeEvent(AccessibilityEvent event, String timestamp){
 
+        if(EventDataExtractor.getEventText(event).equals(""))
+            return; // If the event has no relevant information... exit.
+
+        // TODO borrar este if cuando la papeleta esté solucionada
         if(event.getPackageName().equals("com.google.android.inputmethod.latin"))
             return;
 
+        // Switch event Package Name to discern the app that fired the event
+        switch(event.getPackageName().toString()){
+            case Strings.PACKAGE_GMAIL:
+                // Do something with gmail
+                gmailScrapper.getData(event, timestamp);
+                break;
+            default:
+                break;
+        }
 
-        switch(EventDataExtractor.getEventType(event)){
+
+
+       /* switch(EventDataExtractor.getEventType(event)){
             case "TYPE_WINDOW_STATE_CHANGED":
                 // Add new registry to TAD
-                mainScrapper.addAppLaunch(event, timestamp);
+                generalScrapper.addAppLaunch(event, timestamp);
                 break;
             default:
                 // Add the interaction to App TAD registry
                 if(!EventDataExtractor.getEventText(event).equals("")){
                     // If the event has useful information
-                    mainScrapper.addAppInteraction(event, timestamp);
+                    generalScrapper.addAppInteraction(event, timestamp);
                 }
                 break;
-        }
+        }*/
 
-        //mainScrapper.addEvent(event);
+
+
+        //generalScrapper.addEvent(event);
     }
 }

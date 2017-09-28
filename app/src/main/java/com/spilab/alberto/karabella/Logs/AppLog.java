@@ -1,4 +1,4 @@
-package com.spilab.alberto.karabella.scrapper;
+package com.spilab.alberto.karabella.Logs;
 
 import android.view.accessibility.AccessibilityEvent;
 
