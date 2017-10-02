@@ -8,7 +8,7 @@ import com.spilab.alberto.karabella.utils.EventDataExtractor;
 /**
  * Created by alberto on 18/09/17.
  * <p>
- * Called from EventManager when the user performs a text input
+ * Called from EventHandler when the user performs a text input
  */
 
 public class TextCatcher {

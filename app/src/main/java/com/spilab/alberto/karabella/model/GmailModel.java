@@ -2,6 +2,8 @@ package com.spilab.alberto.karabella.model;
 
 import java.util.LinkedList;
 
+import io.realm.RealmObject;
+
 /**
  * Created by alberto on 27/09/17.
  *

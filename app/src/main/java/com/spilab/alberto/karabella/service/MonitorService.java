@@ -7,7 +7,7 @@ import android.icu.util.Calendar;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
-import com.spilab.alberto.karabella.manager.EventManager;
+import com.spilab.alberto.karabella.handler.EventHandler;
 
 /**
  * Created by alberto on 14/09/17.
@@ -19,7 +19,7 @@ public class MonitorService extends AccessibilityService {
 
     static final String TAG = "RecorderService";
 
-    EventManager eventManager = new EventManager();
+    EventHandler eventHandler = new EventHandler();
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss:SS");
 
@@ -28,7 +28,7 @@ public class MonitorService extends AccessibilityService {
     public void onAccessibilityEvent(AccessibilityEvent event) {
         String time = dateFormat.format(Calendar.getInstance().getTime());
 
-        eventManager.computeEvent(event, time);
+        eventHandler.computeEvent(event, time);
     }
 
     @Override

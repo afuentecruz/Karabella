@@ -3,8 +3,6 @@ package com.spilab.alberto.karabella.utils;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
-import com.spilab.alberto.karabella.manager.EventManager;
-
 /**
  * Created by alberto on 19/09/17.
  */

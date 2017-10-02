@@ -1,4 +1,4 @@
-package com.spilab.alberto.karabella.manager;
+package com.spilab.alberto.karabella.handler;
 
 import android.view.accessibility.AccessibilityEvent;
 
@@ -13,7 +13,7 @@ import com.spilab.alberto.karabella.utils.Strings;
  * Main class that process the accessibility events, filter and saves them in GeneralScrapper
  */
 
-public class EventManager {
+public class EventHandler {
 
     private GeneralScrapper generalScrapper = new GeneralScrapper();
 
@@ -21,11 +21,11 @@ public class EventManager {
 
     public void computeEvent(AccessibilityEvent event, String timestamp){
 
-        if(EventDataExtractor.getEventText(event).equals(""))
+        if(event.getText() == null || EventDataExtractor.getEventText(event).equals(""))
             return; // If the event has no relevant information... exit.
 
         // TODO borrar este if cuando la papeleta esté solucionada
-        if(event.getPackageName().equals("com.google.android.inputmethod.latin"))
+        if(event.getPackageName() == null || event.getPackageName().equals("com.google.android.inputmethod.latin"))
             return;
 
         // Switch event Package Name to discern the app that fired the event
