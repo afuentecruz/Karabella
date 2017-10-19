@@ -1,8 +1,12 @@
 package com.spilab.alberto.karabella.model;
 
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.UUID;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by alberto on 27/09/17.
@@ -10,11 +14,14 @@ import io.realm.RealmObject;
  * Gmail model class
  */
 
-public class GmailModel {
+public class GmailDB extends RealmObject {
+
+    @PrimaryKey
+    private String id;
 
     private String sender;
 
-    private LinkedList<String> receivers = new LinkedList<>();
+    private RealmList<RealmString> receivers = new RealmList<>();
 
     private String subject;
 
@@ -22,7 +29,9 @@ public class GmailModel {
 
     private String timestamp;
 
-    public GmailModel(){};
+    public GmailDB(){
+        this.id = UUID.randomUUID().toString(); //Randomized id.
+    }
 
     public void setTimestamp(String timestamp){
         this.timestamp = timestamp;
@@ -36,11 +45,11 @@ public class GmailModel {
         this.sender = sender;
     }
 
-    public LinkedList<String> getReceivers() {
+    public RealmList<RealmString> getReceivers() {
         return receivers;
     }
 
-    public void setReceivers(LinkedList<String> receivers) {
+    public void setReceivers(RealmList<RealmString> receivers) {
         this.receivers = receivers;
     }
 
@@ -63,10 +72,10 @@ public class GmailModel {
 
     @Override
     public String toString() {
-        return "GmailModel{" + "\n" +
+        return "GmailDB{" + "\n" +
                 "timestamp='" + timestamp + "'\n" +
                 "sender='" + sender + "'\n" +
-                "receivers=" + receivers + "'\n" +
+                "receivers=" + Arrays.toString(receivers.toArray()) + "'\n" +
                 "subject='" + subject + "'\n" +
                 "body='" + body + "'\n" +
                 "}" + "\n";

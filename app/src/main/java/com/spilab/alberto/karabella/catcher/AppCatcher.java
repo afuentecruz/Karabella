@@ -28,7 +28,7 @@ public class AppCatcher {
         }
 
         Log.d(TAG, String.format(
-                "App Launched: [text] %s at [time] %s ",
+                "com.spilab.alberto.karabella.App Launched: [text] %s at [time] %s ",
                 EventDataExtractor.getEventText(event), timestamp));
     }
 

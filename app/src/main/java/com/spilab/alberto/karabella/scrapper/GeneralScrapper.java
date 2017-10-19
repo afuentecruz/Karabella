@@ -3,13 +3,11 @@ package com.spilab.alberto.karabella.scrapper;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
-import com.spilab.alberto.karabella.Logs.AppLog;
-import com.spilab.alberto.karabella.model.GmailModel;
+import com.spilab.alberto.karabella.logger.AppLog;
 import com.spilab.alberto.karabella.utils.EventDataExtractor;
 import com.spilab.alberto.karabella.utils.Strings;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;

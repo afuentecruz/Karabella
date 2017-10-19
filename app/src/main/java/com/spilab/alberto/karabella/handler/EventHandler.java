@@ -1,11 +1,17 @@
 package com.spilab.alberto.karabella.handler;
 
+import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
+import com.spilab.alberto.karabella.manager.GmailManager;
+import com.spilab.alberto.karabella.model.GmailDB;
 import com.spilab.alberto.karabella.scrapper.GeneralScrapper;
 import com.spilab.alberto.karabella.scrapper.GmailScrapper;
+import com.spilab.alberto.karabella.scrapper.WhatsappScrapper;
 import com.spilab.alberto.karabella.utils.EventDataExtractor;
 import com.spilab.alberto.karabella.utils.Strings;
+
+import java.util.List;
 
 /**
  * Created by alberto on 26/09/17.
@@ -15,9 +21,13 @@ import com.spilab.alberto.karabella.utils.Strings;
 
 public class EventHandler {
 
+    private static final String TAG = "EventHandler";
+
     private GeneralScrapper generalScrapper = new GeneralScrapper();
 
     private GmailScrapper gmailScrapper = new GmailScrapper();
+
+    private WhatsappScrapper whatsappScrapper = new WhatsappScrapper();
 
     public void computeEvent(AccessibilityEvent event, String timestamp){
 
@@ -28,13 +38,25 @@ public class EventHandler {
         if(event.getPackageName() == null || event.getPackageName().equals("com.google.android.inputmethod.latin"))
             return;
 
+        //Checks if the user navigates from whatsapp to another activity and remains data to process
+        if(event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED)
+            whatsappScrapper.checkUserInput(timestamp);
+
+
         // Switch event Package Name to discern the app that fired the event
         switch(event.getPackageName().toString()){
             case Strings.PACKAGE_GMAIL:
-                // Do something with gmail
+                // Scrap gmail data
                 gmailScrapper.getData(event, timestamp);
+
                 break;
+
+            case Strings.PACKAGE_WHATSAPP:
+                // Scrap whatsapp data
+                whatsappScrapper.getData(event, timestamp);
+
             default:
+              //  EventDataExtractor.printEvent(event);
                 break;
         }
 
@@ -46,7 +68,7 @@ public class EventHandler {
                 generalScrapper.addAppLaunch(event, timestamp);
                 break;
             default:
-                // Add the interaction to App TAD registry
+                // Add the interaction to com.spilab.alberto.karabella.App TAD registry
                 if(!EventDataExtractor.getEventText(event).equals("")){
                     // If the event has useful information
                     generalScrapper.addAppInteraction(event, timestamp);
