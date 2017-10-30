@@ -1,5 +1,7 @@
 package com.spilab.alberto.karabella.manager;
 
+import android.util.Log;
+
 import com.spilab.alberto.karabella.model.WhatsappDB;
 
 import java.util.List;
@@ -19,6 +21,7 @@ public class WhatsappManager {
      * @param whatsappDB, WhatsappDB object to save or update
      */
     public static void saveOrUpdateWhatsappDB(WhatsappDB whatsappDB){
+        Log.d("WhatsappManager", "SaveOrUpdateWhatsappDB");
         Realm realm = Realm.getDefaultInstance();
 
         //Save or update whatsappDB

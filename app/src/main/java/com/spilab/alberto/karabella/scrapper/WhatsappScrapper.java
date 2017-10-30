@@ -30,27 +30,42 @@ public class WhatsappScrapper {
     /** String actualText, stores what the user is writing right now in the whatsapp editText */
     private String actualText = "";
 
+    // Booleanano para controlar la doble entrada en el navigate to whatsapp home
+    private boolean doubleTry = false;
+
 
     public void getData(AccessibilityEvent event, String timestamp){
         // EventDataExtractor.printEvent(event);
+
+        if(whatsappDB == null)
+            whatsappDB = new WhatsappDB();
+
         switch (event.getClassName().toString()){
 
             case Strings.CLASS_HOMEACTIVITY: //Whatsapp Home
-                Log.d(TAG, "Navigate to whatsapp home");
                 // First checks if remains data to process
-                checkUserInput(timestamp);
+                //checkUserInput(timestamp);
+
                 // Save the previous whatsappDB object (if exists) in database
-                storeObjectInRealm();
+                storeObjectInRealm(timestamp);
 
-                // TODO remove ----
-                List<WhatsappDB> whatsappDBList= WhatsappManager.getAllWhatsappModels();
-                for(WhatsappDB wdb: whatsappDBList){
-                    Log.d("Whatsapp stored content", wdb.toString());
+                if(!doubleTry){
+                    doubleTry = true;
+                }else {
+                    Log.d(TAG, "Navigate to whatsapp home");
+
+                    // TODO remove ----
+                    List<WhatsappDB> whatsappDBList = WhatsappManager.getAllWhatsappModels();
+                    for (WhatsappDB wdb : whatsappDBList) {
+                        Log.d("Whatsapp stored content", wdb.toString());
+                    }
+                    // TODO remove ~~~~
+
+                    whatsappDB = new WhatsappDB();
+                    whatsappDB.setTimestampStart(timestamp);
+
+                    doubleTry = false;
                 }
-                // TODO remove ~~~~
-
-                whatsappDB = new WhatsappDB();
-                whatsappDB.setTimestamp(timestamp);
                 break;
 
             case Strings.WIDGET_RELATIVE_LAYOUT: //Clicked whatsapp conversation
@@ -65,26 +80,23 @@ public class WhatsappScrapper {
                 // Check that the eventText is not "Escribir mensaje"
                 if(EventDataExtractor.getEventText(event).equals("Escribir mensaje") || event.getText() == null || event.getBeforeText() == null)
                     return;
-                /*
-                * La lógica que se plantea es la siguiente:
-                *
-                * El usuario comienza a escribir y se va guardando to en un String
-                *
-                * En el momento en el que manda el mensaje y comienza a escribir de nuevo el texto del evento pasa de
-                * tener la longitud que sea a tener una longitud de 1 (primera letra que se escribe, cuando esto ocurra
-                * se debe almacenar la mandanga en el POJO y resetear la cadena.
-                * */
 
-                if(event.getBeforeText().length() == 0){
-
-                    // The editText widget is empty, that mains that the user has sends the previous string
-                    if(writtenText.length() != 0){
-                        Log.d("shit", writtenText);
-                        whatsappDB.addText(writtenText, timestamp);
-                        writtenText = "";
-                    }
-                }
+                // First get the eventText
                 writtenText = EventDataExtractor.getEventText(event);
+                Log.d(TAG, Integer.toString(event.getBeforeText().length()));
+                if(event.getBeforeText().length() == 0){ // Checks if the text corresponds to a new line in the conversation
+                        // Store the previous WhatsappDB (if exists) in Realm
+                        storeObjectInRealm(timestamp);
+                        Log.d(TAG, "Añadiendo nuevo registro");
+                        whatsappDB.addNewTextRegistry("", timestamp);
+                }else{
+                    if(event.getBeforeText().length() < writtenText.length()){ // The user is not erasing the line
+                        addUserInput(timestamp);
+                    }else{
+                        addUserInput(timestamp);
+                    }
+
+                }
                 break;
 
             default:
@@ -106,7 +118,6 @@ public class WhatsappScrapper {
                 contactName = eventText.substring(0, i);
             }
         }
-
         return contactName;
     }
 
@@ -117,23 +128,45 @@ public class WhatsappScrapper {
      * This method is called when the user navigates to Whatsapp Home or when there is any
      * change of context in the screen (new activities loaded...etc).
      */
-    public void checkUserInput(String timestamp){
+    public void addUserInput(String timestamp){
 
-        if(this.writtenText.length() != 0){
-            //Hay texto escrito por procesar
-            Log.d("shit2", writtenText);
-            whatsappDB.addText(writtenText, timestamp);
-            writtenText = "";
+        if(this.writtenText.length() > 1){ //There is a non-erasing string
+            Log.d("CheckUserInput: ", writtenText);
+            whatsappDB.addTextToRegistry(writtenText, timestamp);
+            writtenText = ""; // Reset the stored string
+        }else{
+            Log.d(TAG, "CheckUserInput: No hay writtenText");
         }
     }
 
     /**
      * sotreObjectInRealm, method that calls WhatsappManager to
      * save or update the WhatsappDB model.
+     * @param timestamp String describing the time when the user abandoned the conversation
      */
-    public void storeObjectInRealm(){
-        if(this.whatsappDB != null && this.whatsappDB.getInterlocutor() != null)
-            WhatsappManager.saveOrUpdateWhatsappDB(this.whatsappDB);
+    public void storeObjectInRealm(String timestamp){
+
+        if(this.whatsappDB != null && this.whatsappDB.getInterlocutor() != null) {
+          //  if(this.whatsappDB.getLastTextRegistry().length() != 0){ // There is some data to store
+                this.whatsappDB.setTimestampEnd(timestamp);
+                WhatsappManager.saveOrUpdateWhatsappDB(this.whatsappDB);
+            //}
+
+        }
+    }
+
+    public void contextChange(String timestamp){
+        Log.d(TAG, "Comprobando el cambio de contexto desde whatsapp");
+        if(this.whatsappDB == null || this.whatsappDB.getTextList() == null) //If whatsappDB object is empty
+            return;
+
+        if(this.writtenText.length() > 1){ //There is a non-erasing string
+            Log.d("contextChange: ", writtenText);
+            whatsappDB.addNewTextRegistry(writtenText, timestamp);
+            storeObjectInRealm(timestamp);
+        }else{
+            Log.d(TAG, "CheckUserInput: No hay writtenText");
+        }
     }
 
 

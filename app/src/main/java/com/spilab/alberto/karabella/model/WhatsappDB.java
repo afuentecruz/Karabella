@@ -23,7 +23,11 @@ public class WhatsappDB extends RealmObject {
 
     private RealmList<RealmStringWithTimestamp> textList = new RealmList<>();
 
-    private String timestamp;
+    // Describes the start time when the user clicked a conversation
+    private String timestampStart;
+
+    // Describes the end time when the user abandoned a conversation
+    private String timestampEnd;
 
     public WhatsappDB(){
         this.id = UUID.randomUUID().toString(); //Randomized id.
@@ -53,25 +57,55 @@ public class WhatsappDB extends RealmObject {
         this.textList = textList;
     }
 
-    public void addText(String text, String timestamp){
+    /**
+     * addTextRegistry, method that adds a new RealmStringWithTimeStamp registry
+     * to the LinkedList
+     * @param text initial text content
+     * @param timestamp initial timestamp
+     */
+    public void addNewTextRegistry(String text, String timestamp){
         this.textList.add(new RealmStringWithTimestamp(text, timestamp));
     }
 
-    public String getTimestamp() {
-        return timestamp;
+    /**
+     * addTextToRegistry, adds the new text to the current working registry
+     * and updates the timestamp
+     * @param text String with the new content to add to the registry
+     * @param timestamp Timestamp describing when the content was added
+     */
+    public void addTextToRegistry(String text, String timestamp){
+        this.textList.last().setContent(text);
+        this.textList.last().setTimestamp(timestamp);
     }
 
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
+    public String getLastTextRegistry(){
+        return this.textList.last().getcontent();
+    }
+
+    public String getTimestampStart() {
+        return timestampStart;
+    }
+
+    public void setTimestampStart(String timestampStart) {
+        this.timestampStart = timestampStart;
+    }
+
+    public String getTimestampEnd(){
+        return this.timestampEnd;
+    }
+
+    public void setTimestampEnd(String timestampEnd){
+        this.timestampEnd = timestampEnd;
     }
 
     @Override
     public String toString() {
         return "WhatsappDB{" + "\n" +
-                "id=" + id + "\n" +
-                "interlocutor=" + interlocutor + "\n" +
-                "timestamp=" + timestamp + "\n" +
-                "textList=" +  Arrays.toString(textList.toArray()) + "'\n" +
+                '\t' + "id: " + id + "\n" +
+                '\t' + "interlocutor: " + interlocutor + "\n" +
+                '\t' + "timestamp Start: " + timestampStart + "\n" +
+                '\t' + "timestamp End: " + timestampEnd + "\n" +
+                '\t' + "textList: " +  Arrays.toString(textList.toArray()) +
                 '}' + "\n";
     }
 }

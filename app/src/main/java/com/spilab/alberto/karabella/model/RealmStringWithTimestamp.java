@@ -27,6 +27,8 @@ public class RealmStringWithTimestamp extends RealmObject {
         this.content = content;
     }
 
+    public String getcontent(){ return this.content; }
+
     public void setTimestamp(String timestamp){
         this.timestamp = timestamp;
     }
@@ -34,9 +36,9 @@ public class RealmStringWithTimestamp extends RealmObject {
     @Override
     public String toString() {
         return "{" + '\n' +
-                "content=" + content + '\n' +
-                "timestamp=" + timestamp + '\n' +
-                '}' + '\n';
+                '\t' +'\t' + "content: " + content + '\n' +
+                '\t' +'\t' + "timestamp: " + timestamp + '\n' +
+                '\t' + '}' + '\n';
     }
 
 }

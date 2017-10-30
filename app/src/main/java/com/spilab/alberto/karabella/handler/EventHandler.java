@@ -40,7 +40,7 @@ public class EventHandler {
 
         //Checks if the user navigates from whatsapp to another activity and remains data to process
         if(event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED)
-            whatsappScrapper.checkUserInput(timestamp);
+            whatsappScrapper.addUserInput(timestamp);
 
 
         // Switch event Package Name to discern the app that fired the event
