@@ -59,25 +59,5 @@ public class EventHandler {
               //  EventDataExtractor.printEvent(event);
                 break;
         }
-
-
-
-       /* switch(EventDataExtractor.getEventType(event)){
-            case "TYPE_WINDOW_STATE_CHANGED":
-                // Add new registry to TAD
-                generalScrapper.addAppLaunch(event, timestamp);
-                break;
-            default:
-                // Add the interaction to com.spilab.alberto.karabella.App TAD registry
-                if(!EventDataExtractor.getEventText(event).equals("")){
-                    // If the event has useful information
-                    generalScrapper.addAppInteraction(event, timestamp);
-                }
-                break;
-        }*/
-
-
-
-        //generalScrapper.addEvent(event);
     }
 }

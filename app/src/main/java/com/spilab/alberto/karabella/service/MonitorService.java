@@ -6,6 +6,7 @@ import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
+import android.widget.Toast;
 
 import com.spilab.alberto.karabella.handler.EventHandler;
 import com.spilab.alberto.karabella.sensor.SensorListener;
@@ -42,6 +43,8 @@ public class MonitorService extends AccessibilityService{
     @Override
     public void onInterrupt() {
         Log.v(TAG, "Service interrupt");
+        Toast toast = Toast.makeText(getApplicationContext(), "Karabella STOPED", Toast.LENGTH_LONG);
+        toast.show();
     }
 
     @Override

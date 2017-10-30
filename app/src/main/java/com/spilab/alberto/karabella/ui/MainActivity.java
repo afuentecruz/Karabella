@@ -18,6 +18,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.spilab.alberto.karabella.R;
+import com.spilab.alberto.karabella.manager.WhatsappManager;
+import com.spilab.alberto.karabella.model.WhatsappDB;
 
 import java.util.List;
 
@@ -53,13 +55,18 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.fab)
     public void sayHelloButton(View view){
-        Snackbar.make(view, "Displaying all available sensors", Snackbar.LENGTH_LONG)
+        mListView = (ListView) findViewById (R.id.ListView);
+
+        List<WhatsappDB> whatsappDBList = WhatsappManager.getAllWhatsappModels();
+
+        mListView.setAdapter(new ArrayAdapter<WhatsappDB>(this, android.R.layout.simple_list_item_1, whatsappDBList));
+        Snackbar.make(view, "Displaying all whatsappDB stored content", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
 
+        /*
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mListView = (ListView) findViewById (R.id.ListView);
         sensorList = sensorManager.getSensorList(Sensor.TYPE_ALL);
-        mListView.setAdapter(new ArrayAdapter<Sensor>(this, android.R.layout.simple_list_item_1,  sensorList));
+        mListView.setAdapter(new ArrayAdapter<Sensor>(this, android.R.layout.simple_list_item_1,  sensorList));*/
     }
 
     @Override
