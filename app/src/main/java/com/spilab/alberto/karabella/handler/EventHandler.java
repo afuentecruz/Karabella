@@ -7,6 +7,7 @@ import com.spilab.alberto.karabella.manager.GmailManager;
 import com.spilab.alberto.karabella.model.GmailDB;
 import com.spilab.alberto.karabella.scrapper.GeneralScrapper;
 import com.spilab.alberto.karabella.scrapper.GmailScrapper;
+import com.spilab.alberto.karabella.scrapper.TelegramScrapper;
 import com.spilab.alberto.karabella.scrapper.WhatsappScrapper;
 import com.spilab.alberto.karabella.utils.EventDataExtractor;
 import com.spilab.alberto.karabella.utils.Strings;
@@ -29,6 +30,8 @@ public class EventHandler {
 
     private WhatsappScrapper whatsappScrapper = new WhatsappScrapper();
 
+    private TelegramScrapper telegramScrapper = new TelegramScrapper();
+
     public void computeEvent(AccessibilityEvent event, String timestamp){
 
         if(event.getText() == null || EventDataExtractor.getEventText(event).equals(""))
@@ -48,15 +51,22 @@ public class EventHandler {
             case Strings.PACKAGE_GMAIL:
                 // Scrap gmail data
                 gmailScrapper.getData(event, timestamp);
-
                 break;
 
             case Strings.PACKAGE_WHATSAPP:
                 // Scrap whatsapp data
                 whatsappScrapper.getData(event, timestamp);
+                break;
+
+            case Strings.PACKAGE_TELEGRAM:
+                // Scrape telegram data
+                telegramScrapper.getData(event, timestamp);
+                break;
 
             default:
-              //  EventDataExtractor.printEvent(event);
+                // In the event default checks if there is any existing content to be stored.
+                //EventDataExtractor.printEvent(event);
+                whatsappScrapper.storeObjectInRealm(timestamp);
                 break;
         }
     }

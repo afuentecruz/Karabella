@@ -74,8 +74,11 @@ public class WhatsappDB extends RealmObject {
      * @param timestamp Timestamp describing when the content was added
      */
     public void addTextToRegistry(String text, String timestamp){
-        this.textList.last().setContent(text);
-        this.textList.last().setTimestamp(timestamp);
+        // if the text list is not empty add content
+        if(!this.textList.isEmpty()) {
+            this.textList.last().setContent(text);
+            this.textList.last().setTimestamp(timestamp);
+        }
     }
 
     public String getLastTextRegistry(){

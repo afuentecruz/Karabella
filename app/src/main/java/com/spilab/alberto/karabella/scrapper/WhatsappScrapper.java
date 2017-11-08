@@ -116,20 +116,23 @@ public class WhatsappScrapper {
     }
 
     private void addNewLine(String data, String timestamp){
-        /* If the interlocutor is not set */
-        if(whatsappDB.getInterlocutor().isEmpty())
-            whatsappDB.setInterlocutor(this.interlocutor);
+        if(whatsappDB != null && whatsappDB.getInterlocutor() != null){
+            /* If the interlocutor is not set */
+            if(whatsappDB.getInterlocutor().isEmpty())
+                whatsappDB.setInterlocutor(this.interlocutor);
 
-        whatsappDB.addNewTextRegistry(data, timestamp);
-
+            whatsappDB.addNewTextRegistry(data, timestamp);
+        }
     }
 
     private void addCurrentLine(String data, String timestamp){
-         /* If the interlocutor is not set */
-        if(whatsappDB.getInterlocutor().isEmpty())
-            whatsappDB.setInterlocutor(this.interlocutor);
+        if(whatsappDB != null && whatsappDB.getInterlocutor() != null){
+            /* If the interlocutor is not set */
+            if(whatsappDB.getInterlocutor().isEmpty())
+                whatsappDB.setInterlocutor(this.interlocutor);
 
-        whatsappDB.addTextToRegistry(data, timestamp);
+            whatsappDB.addTextToRegistry(data, timestamp);
+        }
     }
 
     /**
@@ -138,6 +141,7 @@ public class WhatsappScrapper {
      * @return String contactName, the extracted name
      * */
     private String getContactName(String eventText){
+
 
         String contactName = "";
         for(int i = 0; i < eventText.length(); i++){
@@ -157,12 +161,14 @@ public class WhatsappScrapper {
      */
     public void addUserInput(String timestamp){
 
-        if(this.data.length() > 1){ //There is a non-erasing string
-            Log.d("CheckUserInput: ", data);
-            whatsappDB.addTextToRegistry(data, timestamp);
-            data = ""; // Reset the stored string
-        }else{
-            Log.d(TAG, "CheckUserInput: No hay data");
+        if(whatsappDB != null){
+            if(this.data.length() > 1){ //There is a non-erasing string
+                Log.d("CheckUserInput: ", data);
+                whatsappDB.addTextToRegistry(data, timestamp);
+                data = ""; // Reset the stored string
+            }else{
+                Log.d(TAG, "CheckUserInput: No hay data");
+            }
         }
     }
 

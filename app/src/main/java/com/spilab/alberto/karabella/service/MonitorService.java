@@ -35,7 +35,8 @@ public class MonitorService extends AccessibilityService{
     public void onAccessibilityEvent(AccessibilityEvent event) {
         String time = dateFormat.format(Calendar.getInstance().getTime());
         // TODO gipsy kings event logger
-       //EventDataExtractor.printEvent(event);
+        EventDataExtractor.printEvent(event);
+
 
         eventHandler.computeEvent(event, time);
     }

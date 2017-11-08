@@ -10,6 +10,8 @@ public class Strings {
 
     public static final String PACKAGE_WHATSAPP = "com.whatsapp";
 
+    public static final String PACKAGE_TELEGRAM = "org.telegram.messenger";
+
     public static final String CLASS_HOMEACTIVITY = "com.whatsapp.HomeActivity";
 
     public static final String WIDGET_RELATIVE_LAYOUT = "android.widget.RelativeLayout";
